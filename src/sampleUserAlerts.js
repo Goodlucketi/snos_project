@@ -12,13 +12,13 @@ const userAlerts = [
     },
     {
       id: 2,
-      image_url: garae,
+      image_url: frontdoor,
       message: 'Unexpected movement at the front door',
       timestamp: '2025-05-05T10:15:00Z',
     },
     {
       id: 3,
-      image_url: frontdoor,
+      image_url: garae,
       message: 'Motion detected near the garage',
       timestamp: '2025-05-05T11:45:00Z',
     },
