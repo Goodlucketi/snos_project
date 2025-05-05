@@ -5,6 +5,15 @@ import Footer from '../components/Footer'
 
 function AdminPanel() {
   const [selectedUserId, setSelectedUserId] = useState(null);
+  const [viewedUsers, setViewedUsers] = useState([])
+
+  const handleUserSelect = (userId) =>{
+    setSelectedUserId(userId)
+
+    if(!viewedUsers.includes(userId)){
+      setViewedUsers((prev)=>[...prev, userId])
+    }
+  }
 
   return (
     <main className='w-11/12 mx-auto py-10'>
@@ -13,7 +22,7 @@ function AdminPanel() {
       </nav>
 
       <div className="py-4">
-        <Admin onSelectUser={setSelectedUserId} />
+        <Admin onSelectUser={handleUserSelect}  viewedUsers={viewedUsers}/>
       </div>
 
       {selectedUserId && (
