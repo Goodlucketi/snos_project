@@ -42,6 +42,11 @@ function UserDetails({ userId, onClose }) {
               />
               <p className="mt-2 font-semibold">{alert.message}</p>
               <p className="text-sm text-gray-500">{new Date(alert.timestamp).toLocaleString()}</p>
+
+              <div className="actions p-2 mx-auto">
+                <button className="p-2 bg-cyan-400 transition-all duration-500 hover:bg-blue-500"> Take Action </button>
+                <button className="p-2 bg-cyan-400 transition-all duration-500 hover:bg-blue-500"> Completed </button>
+              </div>
             </div>
           ))}
         </div>
