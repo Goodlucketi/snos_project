@@ -30,7 +30,7 @@ function UserDetails({ userId, onClose, onUpdateStatus }) {
       <div className="bg-white rounded-lg shadow-lg p-6 max-w-3xl w-full mx-4 relative max-h-[90vh] overflow-y-auto">
         <button
           onClick={onClose}
-          className="absolute top-3 right-3 text-gray-600 hover:text-red-500 text-xl"
+          className="absolute top-5 right-10 py-1 px-3 text-slate-100 hover:text-red-500 text-2xl bg-red-500 hover:bg-slate-100 rounded-md"
         >
           &times;
         </button>
