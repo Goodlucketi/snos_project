@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import { userDetailsMap } from '../sampleAdminData';
 
-function UserDetails({ userId, onClose }) {
+function UserDetails({ userId, onClose, onUpdateStatus }) {
   const [userDetails, setUserDetails] = useState(null);
 
   useEffect(() => {
@@ -16,6 +16,14 @@ function UserDetails({ userId, onClose }) {
   if (!userDetails) return null;
 
   const { user, alerts } = userDetails;
+
+  const handleActionClick = () => {
+    onUpdateStatus(userId, 'in-progress');
+  };
+
+  const handleCompletedClick = () => {
+    onUpdateStatus(userId, 'completed');
+  };
 
   return (
     <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center backdrop-blur-sm">
@@ -40,12 +48,26 @@ function UserDetails({ userId, onClose }) {
                 alt="Alert"
                 className="w-full h-32 object-cover rounded"
               />
-              <p className="mt-2 font-semibold">{alert.message}</p>
-              <p className="text-sm text-gray-500">{new Date(alert.timestamp).toLocaleString()}</p>
+              <div className="my-3 message border p-3 rounded-md">
+                <p><span className="font-semibold">Message:</span> {alert.message}</p>
+                <p className="text-sm text-gray-700 my-2">
+                  <span className="font-bold">Time:</span> {new Date(alert.timestamp).toLocaleString()}
+                </p>
+              </div>
 
-              <div className="actions p-2 mx-auto">
-                <button className="p-2 bg-cyan-400 transition-all duration-500 hover:bg-blue-500"> Take Action </button>
-                <button className="p-2 bg-cyan-400 transition-all duration-500 hover:bg-blue-500"> Completed </button>
+              <div className="actions p-2 mx-auto text-center my-3">
+                <button
+                  onClick={handleActionClick}
+                  className="p-2 bg-gradient-to-r from-yellow-400 to-yellow-600 text-white hover:from-yellow-500 hover:to-yellow-700 rounded-md mx-2"
+                >
+                  Take Action
+                </button>
+                <button
+                  onClick={handleCompletedClick}
+                  className="p-2 bg-gradient-to-r from-green-500 to-green-700 text-white hover:from-green-600 hover:to-green-800 rounded-md mx-2"
+                >
+                  Completed
+                </button>
               </div>
             </div>
           ))}
