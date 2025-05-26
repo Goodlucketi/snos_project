@@ -39,14 +39,14 @@ const DashView = () => {
       }, [user]);
 
     return ( 
-        <main className="bg-slate-800 text-white">
+        <main className="bg-slate-800 text-white h-screen overflow-x-hidden">
             <div className="w-11/12 mx-auto py-8 bg-slate-800">
                 <div className="content md:flex gap-10 justify-center">
-                    <div className="sidebar w-5/12 shadow-md">
+                    <div className="sidebar w-5/12">
                         <SideBar />
                     </div>
-                    <div className="">
-                        <div className="info">
+                    <div className="py-4">
+                        <div className="info w-11/12 mx-auto md:w-full">
                             <p>Welcome <span className="font-bold text-lg">{user?.name}</span></p>
                             <h2 className="text-3xl  font-bold p-2">Alerts</h2>
                             <p className="p-2 mb-3 text-slate-400">View your Alerts</p>
@@ -55,9 +55,9 @@ const DashView = () => {
                                 <input type="search" name="search" id="search" placeholder="Search Alerts" className="py-2 pl-12 bg-transparent border rounded-md w-full" />
                             </div>
                         </div>
-                        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4 my-10">
+                        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-10 md:gap-4 my-10">
                             {alerts.map((alert) => (
-                            <div key={alert.id} className="rounded-lg p-4 shadow-xl border">
+                            <div key={alert.id} className="w-11/12 mx-auto md:w-full rounded-lg p-4 shadow-xl border">
                                 <img src={security_icon} alt="Alert" className="w-full object-cover rounded relative object-top bg-slate-200 p-3" />
                                 <p className="my-3 font-semibold">Message: <span className="font-thin">{alert?.message_text}</span></p>
                                 <p className="text-sm text-slate-400 font-semibold">Time: <span className="font-normal">{new Date(alert?.timestamp).toLocaleString()}</span> </p>
