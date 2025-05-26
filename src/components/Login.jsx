@@ -24,8 +24,7 @@ const Login = () => {
             if(response.data.success){
                 toast.success(response.data.message)
                 
-                localStorage.setItem('user', JSON.stringify(response.data.user))     
-
+                localStorage.setItem('user', JSON.stringify(response.data.user))  
                 navigate('/dashboard')
             }
             else{
