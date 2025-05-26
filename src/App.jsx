@@ -9,6 +9,7 @@ import Register from './pages/Register'
 import LoginPage from './pages/LoginPage'
 import Dashboard from './pages/Dashboard'
 import AdminPanel from './pages/AdminPanel'
+import PrivateRoute from './components/PrivateRoute';
 
 function App() {
  
@@ -19,7 +20,11 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<LoginPage />} />
-          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/dashboard" element={
+            <PrivateRoute>
+              <Dashboard />
+            </PrivateRoute>
+          } />
           <Route path="/admin" element={<AdminPanel />} />
         </Routes>
       </Router>
