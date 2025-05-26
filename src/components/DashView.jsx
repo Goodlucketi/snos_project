@@ -1,7 +1,9 @@
 import axios from "axios";
 import { useEffect, useState, } from "react";
-// import sampleUserAlerts from '../sampleUserAlerts'
+import security_icon from '../assets/images/security_icon.png'
 import { useNavigate } from "react-router-dom";
+import SideBar from "./SideBar";
+import { FaSearch } from "react-icons/fa";
 
 
 const DashView = () => {
@@ -37,19 +39,35 @@ const DashView = () => {
       }, [user]);
 
     return ( 
-        <main>
-            <div className="w-11/12 mx-auto p-4 md:p-2">
-                <p className="my-3 md:my-2 text-xl">Welcome <span className="font-bold">{user?.name}</span></p>
-                <h2 className="text-xl font-bold mb-4">Your Alerts</h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {alerts.map((alert) => (
-                    <div key={alert.id} className="border rounded-lg p-4 shadow">
-                        <img src={alert?.image_url} alt="Alert" className="w-full h-72 object-cover rounded relative object-top" />
-                        <p className="my-3 font-semibold">Message: <span className="font-normal">{alert?.message_text}</span></p>
-                        <p className="text-sm text-gray-600 font-semibold">Time: <span className="font-normal">{new Date(alert?.timestamp).toLocaleString()}</span> </p>
+        <main className="bg-slate-800 text-white">
+            <div className="w-11/12 mx-auto py-8 bg-slate-800">
+                <div className="content md:flex gap-10 justify-center">
+                    <div className="sidebar w-5/12 shadow-md">
+                        <SideBar />
                     </div>
-                    ))}
+                    <div className="">
+                        <div className="info">
+                            <p>Welcome <span className="font-bold text-lg">{user?.name}</span></p>
+                            <h2 className="text-3xl  font-bold p-2">Alerts</h2>
+                            <p className="p-2 mb-3 text-slate-400">View your Alerts</p>
+                            <div className="seach relative mb-3">
+                                <FaSearch className="absolute top-4 left-5" />
+                                <input type="search" name="search" id="search" placeholder="Search Alerts" className="py-2 pl-12 bg-transparent border rounded-md w-full" />
+                            </div>
+                        </div>
+                        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4 my-10">
+                            {alerts.map((alert) => (
+                            <div key={alert.id} className="rounded-lg p-4 shadow-xl border">
+                                <img src={security_icon} alt="Alert" className="w-full object-cover rounded relative object-top bg-slate-200 p-3" />
+                                <p className="my-3 font-semibold">Message: <span className="font-thin">{alert?.message_text}</span></p>
+                                <p className="text-sm text-slate-400 font-semibold">Time: <span className="font-normal">{new Date(alert?.timestamp).toLocaleString()}</span> </p>
+                            </div>
+                            ))}
+                        </div>
+                        
+                    </div>
                 </div>
+               
             </div>
         </main>
      );
