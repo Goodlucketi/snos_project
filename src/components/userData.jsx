@@ -21,13 +21,10 @@ const UserDetails = ({ users, userId, userAlerts, onClose, onUpdateStatus }) => 
         >
           &times;
         </button>
-        
-        
-        <h2 className="text-2xl font-bold mb-1">Your Alerts</h2>
-
-        <h3 className="text-lg font-semibold mb-2">Sensor Alerts</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-         
+       
+        <h3 className="text-xl my-4 font-semibold">Sensor Alerts</h3>
+       
+        <div className="grid grid-cols-1 my-5 md:grid-cols-2 gap-4">
           {userAlerts.length === 0 ? (
               <p className=''>No Alerts for this User</p>
           ):(
