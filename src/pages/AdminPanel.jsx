@@ -85,10 +85,10 @@ function AdminPanel() {
         </div>
       </nav>
       <div className='md:flex items-center mt-5 p-4 justify-between'>
-        <div className="my-4 w-5/12 text-white">
+        <div className="my-4 w-full md:w-5/12 text-white">
           <label className="mr-2">Filter by Status:</label>
           <select
-            className="text-black p-2 bg-transparent border rounded w-8/12"
+            className="text-white py-2 px-4 bg-slate-800 border rounded w-full my-2 md:w-9/12"
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
           >
@@ -98,7 +98,7 @@ function AdminPanel() {
             <option value="completed">Completed</option>
           </select>
         </div>
-        <div className="seach relative mb-3 w-5/12">
+        <div className="seach relative mb-3 w-full md:w-5/12">
             <FaSearch className="absolute top-4 left-5" />
             <input type="search" name="search" id="search" placeholder="Search Users" className="py-2 pl-12 bg-transparent border rounded-md w-full" />
         </div>

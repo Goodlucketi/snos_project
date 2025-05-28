@@ -31,12 +31,12 @@ const Admin = ({ users, onSelectUser, userStatusMap, filter, loading }) => {
             <div
               key={user.user_id}
               onClick={() => onSelectUser(user.user_id)}
-              className={`cursor-pointer p-2 border-4 rounded-lg shadow hover:shadow-md transition
+              className={`cursor-pointer p-4 border-4 rounded-lg shadow hover:shadow-md transition
                 bg-gradient-to-br from-cyan-300 via-cyan-500 to-blue-400 hover:from-cyan-300 hover:text-slate-200
                 ${getBorderColor(user.user_id)}`}
             >
               <div className="avatar p-2 mb-5 bg-white rounded-md">
-                <img src={Avatar} alt="User Avatar"  className="p-4"/>
+                <img src={Avatar} alt="User Avatar"  className="p-8"/>
               </div>
               <h3 className="font-semibold text-lg">Name: {user.name}</h3>
               <p className="text-sm text-slate-200">Location: {user.location}</p>
