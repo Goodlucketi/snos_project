@@ -1,24 +1,76 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Admin from '../components/Admin';
 import UserDetails from '../components/userData';
-import { FaBell, FaCog, FaTachometerAlt, FaUser } from 'react-icons/fa';
+import { FaBell, FaCog, FaSearch, FaTachometerAlt, FaUser } from 'react-icons/fa';
 import { FaRepeat } from 'react-icons/fa6';
 import Footer from "../components/Footer"
+import axios from 'axios';
 
 function AdminPanel() {
   const [selectedUserId, setSelectedUserId] = useState(null);
   const [userStatusMap, setUserStatusMap] = useState({});
+  const [users, setUsers] = useState([]);
+  const [userAlerts, setUserAlerts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [statusFilter, setStatusFilter] = useState("all");
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const userRes = await axios.get("https://app.snosfortress.com/api/users/read.php")
+        const alertRes = await  axios.get("https://app.snosfortress.com/api/alerts/read.php")
+        
+        setUsers(userRes.data)
+        setUserAlerts(alertRes.data)
+        
+        const statusMap = {}
+        alertRes.data.forEach(userAlert => {
+          if(!statusMap[userAlert.user_id] || userAlert.status === 'in-progress' || userAlert.status === 'unread') {
+            statusMap[userAlert.user_id] = userAlert.status
+          } 
+        });
+
+        setUserStatusMap(statusMap)
+      } catch (error) {
+        console.error("Error fetching Data", error);
+        
+      }
+      finally{
+        setLoading(false)
+      }
+    }
+    
+    fetchData()
+  }, [])
 
   const handleUserSelect = (userId) => {
     setSelectedUserId(userId);
   };
 
-  const updateUserStatus = (userId, status) => {
-    setUserStatusMap(prev => ({
-      ...prev,
-      [userId]: status
-    }));
-  };
+  const updateUserStatus = async (userId, alertId, updatedStatus) => {
+    try {
+      await axios.patch("https://app.snosfortress.com/api/alerts/update.php", {
+        id:alertId,
+        status:updatedStatus
+      })
+
+      const updatedAlerts = userAlerts.map(alert =>
+        alert.id === alertId ? { ...alert, status:updatedStatus} : alert
+      )
+
+      setUserAlerts(updatedAlerts)
+
+      setUserStatusMap(prev => ({
+        ...prev,
+        [userId]:updatedStatus
+      }))
+
+    } catch (error) {
+      console.error("Failed to Update Status", error);
+      
+  }
+
+};
 
   return (
     <main className="pt-10 px-20 bg-slate-800 text-white">
@@ -30,13 +82,34 @@ function AdminPanel() {
           <li className='flex items-center gap-x-1'><FaRepeat /> Reports</li>
           <li className='flex items-center gap-x-1'><FaUser /> Users</li>
           <li className='flex items-center gap-x-1'><FaCog /> Settings</li>
-
         </div>
       </nav>
-
+      <div className='md:flex items-center mt-5 p-4 justify-between'>
+        <div className="my-4 w-5/12 text-white">
+          <label className="mr-2">Filter by Status:</label>
+          <select
+            className="text-black p-2 bg-transparent border rounded w-8/12"
+            value={statusFilter}
+            onChange={(e) => setStatusFilter(e.target.value)}
+          >
+            <option value="all">All</option>
+            <option value="unread">Unread</option>
+            <option value="in-progress">In Progress</option>
+            <option value="completed">Completed</option>
+          </select>
+        </div>
+        <div className="seach relative mb-3 w-5/12">
+            <FaSearch className="absolute top-4 left-5" />
+            <input type="search" name="search" id="search" placeholder="Search Users" className="py-2 pl-12 bg-transparent border rounded-md w-full" />
+        </div>
+      </div>
+      
       <Admin
+        users={users}
         onSelectUser={handleUserSelect}
         userStatusMap={userStatusMap}
+        filter={statusFilter}
+        loading={loading}
       />
 
       {selectedUserId && (
@@ -44,6 +117,9 @@ function AdminPanel() {
           userId={selectedUserId}
           onClose={() => setSelectedUserId(null)}
           onUpdateStatus={updateUserStatus}
+          userAlerts = {userAlerts.filter(userAlert => userAlert.user_id === selectedUserId)}
+          users={users}
+
         />
       )}
 
