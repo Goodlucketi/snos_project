@@ -5,7 +5,7 @@ import Button from "./Button";
 const Footer = () => {
     return ( 
         <footer className="px-6 pt-6 bg-slate-50 text-blue-700 mt-10">
-            <div className="footer md:w-10/12 mx-auto md:flex justify-between">
+            <div className="footer md:flex justify-between">
                 <div className="logo p-2 md:w-3/12">
                     <img src={logo} alt="Teledom Logo" className="w-6/12 md:w-10/12" />
                 </div>
