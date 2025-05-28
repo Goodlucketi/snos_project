@@ -73,7 +73,7 @@ function AdminPanel() {
 };
 
   return (
-    <main className="pt-10 px-20 bg-slate-800 text-white">
+    <main className="pt-10 md:px-20 bg-slate-800 text-white">
       <nav className="py-4 px-8 sticky top-0 z-50 flex justify-between bg-slate-800 shadow-md">
         <h2 className="font-bold text-2xl">SNOS || Admin Console</h2>
         <div className="links hidden md:flex justify-between gap-x-10 items-center list-none">
