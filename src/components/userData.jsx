@@ -1,16 +1,29 @@
 /* eslint-disable react/prop-types */
 import { useState } from 'react'
 
-const UserDetails = ({ users, userId, userAlerts, onClose, onUpdateStatus }) => {
+const UserDetails = ({ userId, userAlerts, onClose, onUpdateStatus }) => {
   const [updatingId, setUpdatingId] = useState(null);
+  const [inProgressloading, setInProgressLoading] = useState(false)
+  const [onCompleteLoading, setOnCompleteLoading] = useState(false)
 
   const handleStatusUpdate = async(alertId, updatedStatus) =>{
+    if(updatedStatus == 'in-progress'){
+      setInProgressLoading(true)
+    }
+
+    if(updatedStatus == 'complete'){
+      setInProgressLoading(true)
+    }
     setUpdatingId(alertId)
+
     await onUpdateStatus(userId, alertId, updatedStatus)
     setUpdatingId(null)
+    
+    setInProgressLoading(false)
+    setOnCompleteLoading(false)
   }
 
-  console.log(users);
+  // console.log(userAlerts);
   
   return (
     <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center backdrop-blur-sm text-black">
@@ -31,9 +44,9 @@ const UserDetails = ({ users, userId, userAlerts, onClose, onUpdateStatus }) => 
             userAlerts.map((userAlert) => (
               <div key={userAlert.id} className="border rounded-lg p-3 bg-gray-50 shadow">
                 <img
-                  src={userAlert.image_url}
+                  src={userAlert.media_url}
                   alt="Alert"
-                  className="w-full h-32 object-cover rounded"
+                  className="w-full h-48 object-cover rounded"
                 />
                 <div className="my-3 message border p-3 rounded-md">
                   <p><span className="font-semibold">Message:</span> {userAlert.message_text}</p>
@@ -47,13 +60,13 @@ const UserDetails = ({ users, userId, userAlerts, onClose, onUpdateStatus }) => 
                     onClick={() => handleStatusUpdate(userAlert.id, 'in-progress')}
                     className="p-2 bg-gradient-to-r from-yellow-400 to-yellow-600 text-white hover:from-yellow-500 hover:to-yellow-700 rounded-md mx-2" disabled={updatingId===alert.id}
                   >
-                    {updatingId === alert.id ? "Updating..." : "Take Action"}
+                    {inProgressloading ? "Updating..." : "Take Action"}
                   </button>
                   <button
                     onClick={() => handleStatusUpdate(userAlert.id, 'completed')}
                     className="p-2 bg-gradient-to-r from-green-500 to-green-700 text-white hover:from-green-600 hover:to-green-800 rounded-md mx-2" disabled={updatingId === alert.id}
                   >
-                    {updatingId === alert.id ? 'Updating...' :  "Completed"}
+                    {onCompleteLoading ? 'Updating...' :  "Completed"}
                   </button>
                 </div>
               </div>

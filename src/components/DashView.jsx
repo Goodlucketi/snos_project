@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState, } from "react";
-import security_icon from '../assets/images/security_icon.png'
+// import security_icon from '../assets/images/security_icon.png'
 import { useNavigate } from "react-router-dom";
 import SideBar from "./SideBar";
 import { FaSearch } from "react-icons/fa";
@@ -44,7 +44,7 @@ const DashView = () => {
                 <div className="content md:flex gap-10 justify-center">
                     <div className="sidebar w-5/12">
                         <SideBar />
-                    </div>
+                    </div> 
                     <div className="py-4">
                         <div className="info w-11/12 mx-auto md:w-full">
                             <p>Welcome <span className="font-bold text-lg">{user?.name}</span></p>
@@ -58,7 +58,7 @@ const DashView = () => {
                         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-10 md:gap-4 my-10">
                             {alerts.map((alert) => (
                             <div key={alert.id} className="w-11/12 mx-auto md:w-full rounded-lg p-4 shadow-xl border">
-                                <img src={security_icon} alt="Alert" className="w-full object-cover rounded relative object-top bg-slate-200 p-3" />
+                                <img src={alert.media_url} alt="Alert" className="w-full object-cover rounded relative object-top bg-slate-200 p-3" />
                                 <p className="my-3 font-semibold">Message: <span className="font-thin">{alert?.message_text}</span></p>
                                 <p className="text-sm text-slate-400 font-semibold">Time: <span className="font-normal">{new Date(alert?.timestamp).toLocaleString()}</span> </p>
                             </div>

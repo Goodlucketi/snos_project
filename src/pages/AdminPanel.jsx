@@ -49,7 +49,7 @@ function AdminPanel() {
 
   const updateUserStatus = async (userId, alertId, updatedStatus) => {
     try {
-      await axios.patch("https://app.snosfortress.com/api/alerts/update.php", {
+      await axios.patch("https://app.snosfortress.com/api/alerts/updatestatus.php", {
         id:alertId,
         status:updatedStatus
       })
@@ -64,6 +64,9 @@ function AdminPanel() {
         ...prev,
         [userId]:updatedStatus
       }))
+
+      console.log(alertId, updatedStatus);
+      
 
     } catch (error) {
       console.error("Failed to Update Status", error);
