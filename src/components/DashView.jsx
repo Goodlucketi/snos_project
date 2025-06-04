@@ -40,7 +40,7 @@ const DashView = () => {
 
     return ( 
         <main className="bg-slate-800 text-white h-screen overflow-x-hidden">
-            <div className="w-11/12 mx-auto py-8 bg-slate-800">
+            <div className="w-11/12 mx-auto md:py-8 bg-slate-800">
                 <div className="content md:flex gap-10 justify-center">
                     <div className="sidebar w-5/12">
                         <SideBar />

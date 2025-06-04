@@ -7,7 +7,7 @@ const SideBar = () => {
     const toggleSidebar = () => setIsOpen(!isOpen);
 
     return (
-        <div className="relative h-screen">
+        <div className="relative md:h-screen">
             {/* Toggle Button for mobile */}
             <button onClick={toggleSidebar} className="md:hidden p-4 text-2xl">
                 <FaBars />
