@@ -25,7 +25,7 @@ const SideBar = () => {
 
                 {/* Sidebar content */}
                 <nav className="py-2 px-3 mt-4">
-                    <h2 className="p-2 font-bold text-2xl hidden md:block">SNOS</h2>
+                    <h2 className="p-2 font-bold text-2xl mb-10 hidden md:block">SNOS</h2>
                     <ul className="links">
                         <li className="py-2 px-4 mb-5 list-none flex items-center gap-4 hover:bg-slate-200 transition-all duration-500 hover:text-slate-800 rounded-sm">
                             <FaTachometerAlt /> Dashboard
