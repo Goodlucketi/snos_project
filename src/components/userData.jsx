@@ -7,14 +7,14 @@ const UserDetails = ({ userId, userAlerts, onClose, onUpdateStatus }) => {
   const [onCompleteLoading, setOnCompleteLoading] = useState(false)
 
   const handleStatusUpdate = async(alertId, updatedStatus) =>{
+    setUpdatingId(alertId)
+
     if(updatedStatus == 'in-progress'){
       setInProgressLoading(true)
     }
-
-    if(updatedStatus == 'complete'){
-      setInProgressLoading(true)
+    else if(updatedStatus == 'complete'){
+      setOnCompleteLoading(true)
     }
-    setUpdatingId(alertId)
 
     await onUpdateStatus(userId, alertId, updatedStatus)
     setUpdatingId(null)
@@ -23,6 +23,8 @@ const UserDetails = ({ userId, userAlerts, onClose, onUpdateStatus }) => {
     setOnCompleteLoading(false)
   }
 
+  const sortAlerts = [...userAlerts].sort((a, b)=> new Date(b.timestamp) - new Date(a.timestamp)
+  )
   // console.log(userAlerts);
   
   return (
@@ -38,10 +40,10 @@ const UserDetails = ({ userId, userAlerts, onClose, onUpdateStatus }) => {
         <h3 className="text-xl my-4 font-semibold">Sensor Alerts</h3>
        
         <div className="grid grid-cols-1 my-5 md:grid-cols-2 gap-4">
-          {userAlerts.length === 0 ? (
+          {sortAlerts.length === 0 ? (
               <p className=''>No Alerts for this User</p>
           ):(
-            userAlerts.map((userAlert) => (
+            sortAlerts.map((userAlert) => (
               <div key={userAlert.id} className="border rounded-lg p-3 bg-gray-50 shadow">
                 <img
                   src={userAlert.media_url}
@@ -58,15 +60,15 @@ const UserDetails = ({ userId, userAlerts, onClose, onUpdateStatus }) => {
                 <div className="actions p-2 mx-auto text-center my-3">
                   <button
                     onClick={() => handleStatusUpdate(userAlert.id, 'in-progress')}
-                    className="p-2 bg-gradient-to-r from-yellow-400 to-yellow-600 text-white hover:from-yellow-500 hover:to-yellow-700 rounded-md mx-2" disabled={updatingId===alert.id}
+                    className="p-2 bg-gradient-to-r from-yellow-400 to-yellow-600 text-white hover:from-yellow-500 hover:to-yellow-700 rounded-md mx-2" disabled={updatingId===userAlert.id}
                   >
-                    {inProgressloading ? "Updating..." : "Take Action"}
+                    {inProgressloading && updatingId === userAlert.id ? "Updating..." : "Take Action"}
                   </button>
                   <button
-                    onClick={() => handleStatusUpdate(userAlert.id, 'completed')}
-                    className="p-2 bg-gradient-to-r from-green-500 to-green-700 text-white hover:from-green-600 hover:to-green-800 rounded-md mx-2" disabled={updatingId === alert.id}
+                    onClick={() => handleStatusUpdate(userAlert.id, 'complete')}
+                    className="p-2 bg-gradient-to-r from-green-500 to-green-700 text-white hover:from-green-600 hover:to-green-800 rounded-md mx-2" disabled={updatingId === userAlert.id}
                   >
-                    {onCompleteLoading ? 'Updating...' :  "Completed"}
+                    {onCompleteLoading && updatingId === userAlert.id ? 'Updating...' :  "Completed"}
                   </button>
                 </div>
               </div>

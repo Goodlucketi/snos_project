@@ -5,6 +5,8 @@ import { FaBell, FaCog, FaSearch, FaTachometerAlt, FaUser } from 'react-icons/fa
 import { FaRepeat } from 'react-icons/fa6';
 import Footer from "../components/Footer"
 import axios from 'axios';
+import { toast } from 'react-toastify';
+
 
 function AdminPanel() {
   const [selectedUserId, setSelectedUserId] = useState(null);
@@ -13,6 +15,7 @@ function AdminPanel() {
   const [userAlerts, setUserAlerts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [statusFilter, setStatusFilter] = useState("all");
+  const [searchQuery, setSearchQuery] = useState('')
 
   useEffect(() => {
     const fetchData = async () => {
@@ -25,14 +28,22 @@ function AdminPanel() {
         
         const statusMap = {}
         alertRes.data.forEach(userAlert => {
-          if(!statusMap[userAlert.user_id] || userAlert.status === 'in-progress' || userAlert.status === 'unread') {
-            statusMap[userAlert.user_id] = userAlert.status
+          const currentStatus = statusMap[userAlert.user_id]
+          const newStatus = userAlert.status
+
+          if(
+            !currentStatus || 
+            (newStatus === 'unread') || 
+            (newStatus === 'in-progress' && currentStatus !== 'unread')||
+            (newStatus === 'complete' && !['unread', 'in-progress'].includes(currentStatus)) 
+          ){
+            statusMap[userAlert.user_id] = newStatus
           } 
         });
 
         setUserStatusMap(statusMap)
       } catch (error) {
-        console.error("Error fetching Data", error);
+        toast.error("Error fetching Data", error);
         
       }
       finally{
@@ -47,31 +58,79 @@ function AdminPanel() {
     setSelectedUserId(userId);
   };
 
+  const handleSearch = (e)=>{
+    setSearchQuery(e.target.value.toLowerCase())
+  }
+
+  // const updateUserStatus = async (userId, alertId, updatedStatus) => {
+  //   try {
+  //     const response = await axios.patch("https://app.snosfortress.com/api/alerts/updatestatus.php", {
+  //       id:alertId,
+  //       status:updatedStatus
+  //     })
+
+  //     if(response.status=== 200){
+  //       const updatedAlerts = userAlerts.map(alert =>
+  //         alert.id === alertId ? { ...alert, status:updatedStatus} : alert
+  //       )
+  //       setUserAlerts(updatedAlerts)
+
+  //       setUserStatusMap(prev => ({
+  //         ...prev,
+  //         [userId]:updatedStatus
+  //       }))
+
+  //     }
+  //     else{
+  //       console.error("Unexpected Server Response", response.status)
+  //     }
+  //     console.log(alertId, updatedStatus);
+      
+
+  //   } catch (error) {
+  //     console.error("Failed to Update Status", error);
+      
+  // }
+
   const updateUserStatus = async (userId, alertId, updatedStatus) => {
     try {
-      await axios.patch("https://app.snosfortress.com/api/alerts/updatestatus.php", {
-        id:alertId,
-        status:updatedStatus
-      })
-
-      const updatedAlerts = userAlerts.map(alert =>
-        alert.id === alertId ? { ...alert, status:updatedStatus} : alert
-      )
-
-      setUserAlerts(updatedAlerts)
-
-      setUserStatusMap(prev => ({
-        ...prev,
-        [userId]:updatedStatus
-      }))
-
-      console.log(alertId, updatedStatus);
+      const response = await axios.patch("https://app.snosfortress.com/api/alerts/updatestatus.php", {
+        id: alertId,
+        status: updatedStatus
+      });
+      // console.log(alertId, updatedStatus);
       
+      if (response.status === 200) {
+        // Refetch alerts to ensure consistency
+        const alertRes = await axios.get("https://app.snosfortress.com/api/alerts/read.php");
 
+        if(updatedStatus === "in-progress"){
+          toast.success("Status Updated - In Progress")
+        }
+         if(updatedStatus === "complete"){
+          toast.success("Status Updated - Completed")
+        }
+        
+        setUserAlerts(alertRes.data);
+
+        const statusMap = {};
+        alertRes.data.forEach(userAlert => {
+          const currentStatus = statusMap[userAlert.user_id];
+          const newStatus = userAlert.status;
+          if (
+            !currentStatus ||
+            (newStatus === 'unread') ||
+            (newStatus === 'in-progress' && currentStatus !== 'unread') ||
+            (newStatus === 'completed' && !['unread', 'in-progress'].includes(currentStatus))
+          ) {
+            statusMap[userAlert.user_id] = newStatus;
+          }
+        });
+        setUserStatusMap(statusMap);
+      }
     } catch (error) {
-      console.error("Failed to Update Status", error);
-      
-  }
+      toast.error("Failed to Update Status", error);
+    }
 
 };
 
@@ -103,7 +162,15 @@ function AdminPanel() {
         </div>
         <div className="seach relative mb-3 w-full md:w-5/12">
             <FaSearch className="absolute top-4 left-5" />
-            <input type="search" name="search" id="search" placeholder="Search Users" className="py-2 pl-12 bg-transparent border rounded-md w-full" />
+            <input 
+              type="search" 
+              name="search" 
+              id="search" 
+              placeholder="Search Users" 
+              className="py-2 pl-12 bg-transparent border rounded-md w-full"
+              value={searchQuery}
+              onChange={handleSearch}
+            />
         </div>
       </div>
       
@@ -113,6 +180,7 @@ function AdminPanel() {
         userStatusMap={userStatusMap}
         filter={statusFilter}
         loading={loading}
+        searchQuery={searchQuery}
       />
 
       {selectedUserId && (

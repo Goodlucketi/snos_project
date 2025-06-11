@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import Avatar from "../assets/images/shield_8777895.png"
 
-const Admin = ({ users, onSelectUser, userStatusMap, filter, loading }) => {
+const Admin = ({ users, onSelectUser, userStatusMap, filter, loading, searchQuery }) => {
  
   const getBorderColor = (userId) => {
     const status = userStatusMap[userId]
@@ -13,7 +13,11 @@ const Admin = ({ users, onSelectUser, userStatusMap, filter, loading }) => {
 
   const filteredUsers = users.filter(user => {
     const status = userStatusMap[user.user_id]
-    return filter === 'all' || status === filter;
+    const matchesStatus = filter === 'all' || status === filter
+
+    const matchesSearch = user.name.toLowerCase().includes(searchQuery) || user.location.toLowerCase().includes(searchQuery)
+    
+    return matchesStatus && matchesSearch;
   });
 
   return (
