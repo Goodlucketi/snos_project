@@ -105,7 +105,7 @@ function AdminPanel() {
         const alertRes = await axios.get("https://app.snosfortress.com/api/alerts/read.php");
 
         if(updatedStatus === "in-progress"){
-          toast.success("Status Updated - In Progress")
+          toast.warn("Status Updated - In Progress")
         }
          if(updatedStatus === "complete"){
           toast.success("Status Updated - Completed")

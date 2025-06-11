@@ -17,8 +17,7 @@ const UserDetails = ({ userId, userAlerts, onClose, onUpdateStatus }) => {
     }
 
     await onUpdateStatus(userId, alertId, updatedStatus)
-    setUpdatingId(null)
-    
+    setUpdatingId(null) 
     setInProgressLoading(false)
     setOnCompleteLoading(false)
   }
@@ -60,13 +59,13 @@ const UserDetails = ({ userId, userAlerts, onClose, onUpdateStatus }) => {
                 <div className="actions p-2 mx-auto text-center my-3">
                   <button
                     onClick={() => handleStatusUpdate(userAlert.id, 'in-progress')}
-                    className="p-2 bg-gradient-to-r from-yellow-400 to-yellow-600 text-white hover:from-yellow-500 hover:to-yellow-700 rounded-md mx-2" disabled={updatingId===userAlert.id}
+                    className="p-2 bg-gradient-to-r from-yellow-400 to-yellow-600 text-white hover:from-yellow-500 hover:to-yellow-700 rounded-md mx-2 disabled:opacity-50 disabled:cursor-not-allowed" disabled={updatingId===userAlert.id || userAlert.status !== 'unread'}
                   >
                     {inProgressloading && updatingId === userAlert.id ? "Updating..." : "Take Action"}
                   </button>
                   <button
                     onClick={() => handleStatusUpdate(userAlert.id, 'complete')}
-                    className="p-2 bg-gradient-to-r from-green-500 to-green-700 text-white hover:from-green-600 hover:to-green-800 rounded-md mx-2" disabled={updatingId === userAlert.id}
+                    className="p-2 bg-gradient-to-r from-green-500 to-green-700 text-white hover:from-green-600 hover:to-green-800 rounded-md mx-2 disabled:opacity-50 disabled:cursor-not-allowed" disabled={updatingId === userAlert.id || userAlert.status !== 'in-progress'}
                   >
                     {onCompleteLoading && updatingId === userAlert.id ? 'Updating...' :  "Completed"}
                   </button>
