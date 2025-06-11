@@ -38,6 +38,8 @@ const DashView = () => {
        userAlerts()
       }, [user]);
 
+      const sortAlerts = [...alerts].sort((a, b)=> new Date(b.timestamp) - new Date(a.timestamp)
+  )
     return ( 
         <main className="bg-slate-800 text-white h-screen overflow-x-hidden">
             <div className="w-11/12 mx-auto md:py-8 bg-slate-800">
@@ -56,7 +58,7 @@ const DashView = () => {
                             </div>
                         </div>
                         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-10 md:gap-4 my-10">
-                            {alerts.map((alert) => (
+                            {sortAlerts.map((alert) => (
                             <div key={alert.id} className="w-11/12 mx-auto md:w-full rounded-lg p-4 shadow-xl border">
                                 <img src={alert.media_url} alt="Alert" className="w-full object-cover rounded relative object-top bg-slate-200 p-3" />
                                 <p className="my-3 font-semibold">Message: <span className="font-thin">{alert?.message_text}</span></p>
