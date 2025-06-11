@@ -6,7 +6,7 @@ const Admin = ({ users, onSelectUser, userStatusMap, filter, loading, searchQuer
   const getBorderColor = (userId) => {
     const status = userStatusMap[userId]
     if (status === 'in-progress') return 'border-yellow-500';
-    if (status === 'completed') return 'border-green-500';
+    if (status === 'complete') return 'border-green-500';
     if (status === 'unread') return 'border-red-800';
     return 'border-transparent';
   };
