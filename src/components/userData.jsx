@@ -24,7 +24,11 @@ const UserDetails = ({ userId, userAlerts, onClose, onUpdateStatus }) => {
 
   const sortAlerts = [...userAlerts].sort((a, b)=> new Date(b.timestamp) - new Date(a.timestamp)
   )
-  // console.log(userAlerts);
+  const adjustTime = (timestamp) =>{
+        const date = new Date(timestamp)
+        date.setHours(date.getHours() + 1)
+        return date.toLocaleString()
+  }
   
   return (
     <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center backdrop-blur-sm text-black">
@@ -52,7 +56,7 @@ const UserDetails = ({ userId, userAlerts, onClose, onUpdateStatus }) => {
                 <div className="my-3 message border p-3 rounded-md">
                   <p><span className="font-semibold">Message:</span> {userAlert.message_text}</p>
                   <p className="text-sm text-gray-700 my-2">
-                    <span className="font-bold">Time:</span> {new Date(userAlert.timestamp).toLocaleString()}
+                    <span className="font-bold">Time:</span> {adjustTime(userAlert.timestamp)}
                   </p>
                 </div>
 

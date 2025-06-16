@@ -4,6 +4,7 @@ import { useEffect, useState, } from "react";
 import { useNavigate } from "react-router-dom";
 import SideBar from "./SideBar";
 import { FaSearch } from "react-icons/fa";
+import { toast } from "react-toastify";
 
 
 const DashView = () => {
@@ -19,27 +20,32 @@ const DashView = () => {
             navigate('/login')
         }else{
             setUser(userData)
-            console.log(userData);
+            // console.log(userData);
             
         }
-    },[])
+    },[navigate])
 
     useEffect(() => {
        const userAlerts = async() =>{
         try {
             const response = await axios.get(`https://app.snosfortress.com/api/alerts/read.php?user_id=${user.user_id}`)
             setAlerts(response.data)
-            console.log(response.data);
+            // console.log(response.data);
             
         } catch (error) {
-            console.error("Failed to fetch alerts", error)
+            toast.error("Failed to fetch alerts", error)
         }
        }
        userAlerts()
-      }, [user]);
+    }, [user]);
 
-      const sortAlerts = [...alerts].sort((a, b)=> new Date(b.timestamp) - new Date(a.timestamp)
-  )
+    const sortAlerts = [...alerts].sort((a, b)=> new Date(b.timestamp) - new Date(a.timestamp))
+
+    const adjustTime = (timestamp) =>{
+        const date = new Date(timestamp)
+        date.setHours(date.getHours() + 1)
+        return date.toLocaleString()
+    }
     return ( 
         <main className="bg-slate-800 text-white h-screen overflow-x-hidden">
             <div className="w-11/12 mx-auto md:py-8 bg-slate-800">
@@ -62,7 +68,7 @@ const DashView = () => {
                             <div key={alert.id} className="w-11/12 mx-auto md:w-full rounded-lg p-4 shadow-xl border">
                                 <img src={alert.media_url} alt="Alert" className="w-full object-cover rounded relative object-top bg-slate-200 p-3" />
                                 <p className="my-3 font-semibold">Message: <span className="font-thin">{alert?.message_text}</span></p>
-                                <p className="text-sm text-slate-400 font-semibold">Time: <span className="font-normal">{new Date(alert?.timestamp).toLocaleString()}</span> </p>
+                                <p className="text-sm text-slate-400 font-semibold">Time: <span className="font-normal">{adjustTime(alert?.timestamp)}</span> </p>
                             </div>
                             ))}
                         </div>
