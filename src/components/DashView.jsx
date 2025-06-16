@@ -28,10 +28,11 @@ const DashView = () => {
     useEffect(() => {
        const userAlerts = async() =>{
         try {
-            const response = await axios.get(`https://app.snosfortress.com/api/alerts/read.php?user_id=${user.user_id}`)
-            setAlerts(response.data)
-            // console.log(response.data);
-            
+            if(user?.user_id){
+                const response = await axios.get(`https://app.snosfortress.com/api/alerts/read.php?user_id=${user.user_id}`)
+                setAlerts(response.data)
+                // console.log(response.data);
+            }  
         } catch (error) {
             toast.error("Failed to fetch alerts", error)
         }
