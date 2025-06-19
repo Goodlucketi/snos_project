@@ -40,7 +40,7 @@ const SideBar = ({ unreadCount }) => {
                                 <FaTachometerAlt /> Dashboard
                             </NavLink>
                         </li>
-                        <li className="mb-5 list-none flex items-center gap-4 hover:bg-slate-200 transition-all duration-500 hover:text-slate-800 rounded-sm">
+                        <li className="mb-5 relative list-none flex items-center gap-4 hover:bg-slate-200 transition-all duration-500 hover:text-slate-800 rounded-sm">
                             <NavLink 
                                 to="alerts"
                                  className={({isActive})=> `py-2 px-4 flex items-center gap-4 transition-all duration-500 hover:text-slate-800 rounded-sm ${isActive ? 'bg-slate-200 text-slate-800' : 'text-white'}`}
@@ -48,7 +48,7 @@ const SideBar = ({ unreadCount }) => {
                                  >
                                 <FaBell /> Alerts
                                 {unreadCount > 0 && (
-                                    <span className="absolute top-0 right-0 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                                    <span className="absolute top-0 left-6 bg-red-500 text-white text-xs rounded-full h-3 w-3 flex items-center justify-center">
                                         {unreadCount}
                                     </span>
                                 )}
