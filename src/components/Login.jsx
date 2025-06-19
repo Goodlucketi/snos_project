@@ -3,12 +3,14 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from 'react-toastify';
+import { useAuth } from "../context/AuthContext";
 
 
 
 const Login = () => {
     const [loading, setLoading] = useState(false)
     const navigate = useNavigate()
+    const { login } = useAuth()
 
     const {
         register,
@@ -24,7 +26,7 @@ const Login = () => {
             if(response.data.success){
                 toast.success(response.data.message)
                 
-                localStorage.setItem('user', JSON.stringify(response.data.user))  
+                login(response.data.user)
                 navigate('/dashboard')
             }
             else{

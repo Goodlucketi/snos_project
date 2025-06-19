@@ -1,4 +1,3 @@
-import snos from '../assets/images/snos.jpg'
 const Hero = () => {
     return ( 
         <header className="py-16 hero">

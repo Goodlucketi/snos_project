@@ -1,8 +1,12 @@
+/* eslint-disable react/prop-types */
 import { useState } from "react";
 import { FaTachometerAlt, FaBell, FaSignOutAlt, FaUser, FaCog, FaBars, FaTimes } from "react-icons/fa";
+import { NavLink } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
-const SideBar = () => {
+const SideBar = ({ unreadCount }) => {
     const [isOpen, setIsOpen] = useState(false);
+    const { logout } = useAuth()
 
     const toggleSidebar = () => setIsOpen(!isOpen);
 
@@ -27,20 +31,54 @@ const SideBar = () => {
                 <nav className="py-2 px-3 mt-4">
                     <h2 className="p-2 font-bold text-2xl mb-10 hidden md:block">SNOS</h2>
                     <ul className="links">
-                        <li className="py-2 px-4 mb-5 list-none flex items-center gap-4 hover:bg-slate-200 transition-all duration-500 hover:text-slate-800 rounded-sm">
-                            <FaTachometerAlt /> Dashboard
+                        <li className="mb-5 list-none flex items-center gap-4 hover:bg-slate-200 transition-all duration-500 hover:text-slate-800 rounded-sm ">
+                            <NavLink 
+                                to="userdash"
+                                className={({isActive})=> `py-2 px-4 flex items-center gap-4 transition-all duration-500 hover:text-slate-800 rounded-sm ${isActive ? 'bg-slate-200 text-slate-800' : 'text-white'}`}
+                                onClick={()=>setIsOpen(false)}
+                                >
+                                <FaTachometerAlt /> Dashboard
+                            </NavLink>
                         </li>
-                        <li className="py-2 px-4 mb-5 list-none flex items-center gap-4 hover:bg-slate-200 transition-all duration-500 hover:text-slate-800 rounded-sm">
-                            <FaBell /> Alerts
+                        <li className="mb-5 list-none flex items-center gap-4 hover:bg-slate-200 transition-all duration-500 hover:text-slate-800 rounded-sm">
+                            <NavLink 
+                                to="alerts"
+                                 className={({isActive})=> `py-2 px-4 flex items-center gap-4 transition-all duration-500 hover:text-slate-800 rounded-sm ${isActive ? 'bg-slate-200 text-slate-800' : 'text-white'}`}
+                                 onClick={()=>setIsOpen(false)}
+                                 >
+                                <FaBell /> Alerts
+                                {unreadCount > 0 && (
+                                    <span className="absolute top-0 right-0 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                                        {unreadCount}
+                                    </span>
+                                )}
+                            </NavLink>   
                         </li>
-                        <li className="py-2 px-4 mb-5 list-none flex items-center gap-4 hover:bg-slate-200 transition-all duration-500 hover:text-slate-800 rounded-sm">
-                            <FaUser /> Profile
+                        <li className="mb-5 list-none flex items-center gap-4 hover:bg-slate-200 transition-all duration-500 hover:text-slate-800 rounded-sm">
+                            <NavLink 
+                                to="profile"
+                                className={({isActive})=> `py-2 px-4 flex items-center gap-4 transition-all duration-500 hover:text-slate-800 rounded-sm ${isActive ? 'bg-slate-200 text-slate-800' : 'text-white'}`}
+                                 onClick={()=>setIsOpen(false)}>
+                                <FaUser /> Profile
+                            </NavLink>    
                         </li>
-                        <li className="py-2 px-4 mb-5 list-none flex items-center gap-4 hover:bg-slate-200 transition-all duration-500 hover:text-slate-800 rounded-sm">
-                            <FaCog /> Settings
+                        <li className="mb-5 list-none flex items-center gap-4 hover:bg-slate-200 transition-all duration-500 hover:text-slate-800 rounded-sm">
+                            <NavLink 
+                                to="settings"
+                                className={({isActive})=> `py-2 px-4 flex items-center gap-4 transition-all duration-500 hover:text-slate-800 rounded-sm ${isActive ? 'bg-slate-200 text-slate-800' : 'text-white'}`}
+                                 onClick={()=>setIsOpen(false)}>
+                               <FaCog /> Settings
+                            </NavLink>
+                           
                         </li>
-                        <li className="py-2 px-4 mb-5 list-none flex items-center gap-4 hover:bg-slate-200 transition-all duration-500 hover:text-slate-800 rounded-sm">
-                            <FaSignOutAlt /> LogOut
+                        <li className="mb-5 list-none flex items-center gap-4 hover:bg-slate-200 transition-all duration-500 hover:text-slate-800 rounded-sm">
+                            <button
+                                onClick={()=> {logout(); setIsOpen(false)}}
+                                className="py-2 px-4 flex items-center gap-4 transition-all duration-500 hover:text-slate-800 rounded-sm text-white"
+                            >
+                                <FaSignOutAlt /> LogOut
+                            </button>
+                           
                         </li>
                     </ul>
                 </nav>
