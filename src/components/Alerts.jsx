@@ -6,7 +6,7 @@ import { useOutletContext } from "react-router-dom";
 const Alerts = () => {
   const { alerts: alertList = [], user: currentUser = {} } = useOutletContext();
   const [searchQuery, setSearchQuery] = useState("");
-
+  
   const adjustTime = (timestamp) => {
     const date = new Date(timestamp);
     date.setHours(date.getHours() + 1);

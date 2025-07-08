@@ -23,7 +23,7 @@ const Profile = () => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await axios.get(`https://app.snosfortress.com/api/users/read_single.php?user_id=${currentUser?.user_id}`);
+        const response = await axios.get(`https://snos.teledominternational.net/users/read_single.php?user_id=${currentUser?.user_id}`);
         if (response.data?.user) {
           const { name, email, location, address, phone } = response.data.user;
           setFormData({ name, email, location, address, phone });
