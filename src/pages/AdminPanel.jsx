@@ -20,8 +20,8 @@ function AdminPanel() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const userRes = await axios.get("https://app.snosfortress.com/api/users/read.php")
-        const alertRes = await  axios.get("https://app.snosfortress.com/api/alerts/read.php")
+        const userRes = await axios.get("https://snos.teledominternational.net/users/read.php")
+        const alertRes = await  axios.get("https://snos.teledominternational.net/alerts/read.php")
         
         setUsers(userRes.data)
         setUserAlerts(alertRes.data)
@@ -64,7 +64,7 @@ function AdminPanel() {
 
   // const updateUserStatus = async (userId, alertId, updatedStatus) => {
   //   try {
-  //     const response = await axios.patch("https://app.snosfortress.com/api/alerts/updatestatus.php", {
+  //     const response = await axios.patch("https://snos.teledominternational.net/alerts/updatestatus.php", {
   //       id:alertId,
   //       status:updatedStatus
   //     })
@@ -94,7 +94,7 @@ function AdminPanel() {
 
   const updateUserStatus = async (userId, alertId, updatedStatus) => {
     try {
-      const response = await axios.patch("https://app.snosfortress.com/api/alerts/updatestatus.php", {
+      const response = await axios.patch("https://snos.teledominternational.net/alerts/updatestatus.php", {
         id: alertId,
         status: updatedStatus
       });
@@ -102,7 +102,7 @@ function AdminPanel() {
       
       if (response.status === 200) {
         // Refetch alerts to ensure consistency
-        const alertRes = await axios.get("https://app.snosfortress.com/api/alerts/read.php");
+        const alertRes = await axios.get("https://snos.teledominternational.net/alerts/read.php");
 
         if(updatedStatus === "in-progress"){
           toast.warn("Status Updated - In Progress")

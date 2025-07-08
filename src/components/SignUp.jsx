@@ -17,7 +17,7 @@ const SignUp = () => {
     const onSubmit = async (data) => {
         setLoading(true)
         try {
-            const response = await axios.post("https://app.snosfortress.com/api/users/create.php", data);
+            const response = await axios.post("https://snos.teledominternational.net/users/create.php", data);
             
             if(response.data.success){
                 toast.success(response.data.message)

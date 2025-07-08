@@ -46,7 +46,7 @@ const Profile = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.put(`https://app.snosfortress.com/api/users/update.php`, {
+      const response = await axios.put(`https://snos.teledominternational.net/users/update.php`, {
         user_id: currentUser.user_id,
         ...formData,
       });

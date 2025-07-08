@@ -21,7 +21,7 @@ const Login = () => {
     const onSubmit = async (data) => {
         setLoading(true)
         try {
-            const response = await axios.post("https://app.snosfortress.com/api/users/login.php", data);
+            const response = await axios.post("https://snos.teledominternational.net/users/login.php", data);
             
             if(response.data.success){
                 toast.success(response.data.message)

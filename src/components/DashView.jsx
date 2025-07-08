@@ -28,7 +28,7 @@ const DashView = () => {
        const userAlerts = async() =>{
         try {
             if(user?.user_id){
-                const response = await axios.get(`https://app.snosfortress.com/api/alerts/read.php?user_id=${user.user_id}`)
+                const response = await axios.get(`https://snos.teledominternational.net/alerts/read.php?user_id=${user.user_id}`)
                 setAlerts(response.data)
                 console.log(response.data);
             }  
