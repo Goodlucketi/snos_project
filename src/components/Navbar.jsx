@@ -11,7 +11,7 @@ const Navbar = () => {
                     <Link to="/"> <h2 className="font-bold text-2xl text-blue-700">SNOS</h2></Link>
                 </div>
                 <div className="links">
-                    <Link to="/register"><Button text="Get Started" /></Link>
+                    <Link to="/login"><Button text="Get Started" /></Link>
                 </div>
             </nav>
         </header> 

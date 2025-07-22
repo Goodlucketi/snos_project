@@ -7,11 +7,11 @@ const Alerts = () => {
   const { alerts: alertList = [], user: currentUser = {} } = useOutletContext();
   const [searchQuery, setSearchQuery] = useState("");
   
-  const adjustTime = (timestamp) => {
-    const date = new Date(timestamp);
-    date.setHours(date.getHours() + 1);
-    return date.toLocaleString();
-  };
+  // const adjustTime = (timestamp) => {
+  //   const date = new Date(timestamp);
+  //   date.setHours(date.getHours());
+  //   return date.toLocaleString();
+  // };
 
   const filteredAlerts = [...alertList]
     .filter(alert => alert.message_text.toLowerCase().includes(searchQuery))
@@ -53,7 +53,7 @@ const Alerts = () => {
                 Message: <span className="font-thin">{alert?.message_text}</span>
               </p>
               <p className="text-sm text-slate-400 font-semibold">
-                Time: <span className="font-normal">{adjustTime(alert?.timestamp)}</span>
+                Time: <span className="font-normal">{(alert?.timestamp)}</span>
               </p>
             </div>
           ))
